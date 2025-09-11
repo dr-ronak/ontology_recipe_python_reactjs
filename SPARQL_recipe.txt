@@ -1,0 +1,1797 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?instancename ?unitform ?unittype
+WHERE
+{
+      ?x a test:Unit .
+      ?x test:unitType ?unittype .
+      ?x test:hasUnitForm ?unitform .
+      ?classname rdfs:subClassOf* test:Ingredient .
+     ?instancename a ?classname .
+	?instancename test:hasUnitForm ?unitform .
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?instancename ?ingrname ?unitform ?unittype
+WHERE
+{
+      ?x a test:Unit .
+      ?x test:unitType ?unittype .
+      ?x test:hasUnitForm ?unitform .
+      ?classname rdfs:subClassOf* test:Ingredient .
+      ?instancename test:hasUnitForm ?unitform .
+     ?instancename a ?classname .
+     OPTIONAL { ?instancename test:name ?ingrname }   
+
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?instancename ?ingrname ?unitform ?unittype
+WHERE
+{
+      ?x a test:Unit .
+      ?x test:unitType ?unittype .
+      ?x test:hasUnitForm ?unitform .
+      ?classname rdfs:subClassOf* test:Ingredient .
+      ?instancename test:hasUnitForm ?unitform .
+     ?instancename a ?classname .
+     OPTIONAL { ?instancename test:name ?ingrname }   
+            FILTER ( ?ingrname = 'Fish Oil' )
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?instancename ?ingredientid ?ingredientname ?unitform ?unittype
+WHERE
+{
+      ?x a test:Unit .
+      ?x test:unitType ?unittype .
+      ?x test:hasUnitForm ?unitform .
+      ?classname rdfs:subClassOf* test:Ingredient .
+      ?instancename test:hasUnitForm ?unitform .
+     ?instancename a ?classname .
+      OPTIONAL { ?instancename test:ingredient_id ?ingredientid }
+     OPTIONAL { ?instancename test:name ?ingredientname }   
+       FILTER regex(str(?ingredientname),'Almond',"i" )
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+SELECT ?indv ?x ?unitformname
+WHERE
+{
+    
+    ?indv a test:Unit .  
+    ?indv test:hasUnitForm ?x .
+    ?x test:unitform_name ?unitformname .
+    FILTER ( ?unitformname = 'Solid' || ?unitformname = 'Both' )
+}
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT?classname ?instancename ?unitform ?unittype
+WHERE
+{
+?classname rdfs:subClassOf* test:Ingredient .
+    ?instancename a ?classname .
+   ?instancename test:hasUnitForm ?unitform .
+   {
+      SELECT ?unittype
+      WHERE
+      {
+          ?x a test:Unit .
+          ?x test:hasUnitType ?unitform .
+      }
+   }
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv ?recipename ?author ?authoremail ?description ?recipeimg ?recipeingredient ?recipesteps ?recipepublished ?recipecookingtime ?recipemealtype
+WHERE
+{
+  ?indv a test:Recipe .
+  ?indv test:name ?recipename .
+  ?indv test:author ?author .
+  ?indv test:authorEmail ?authoremail .
+  ?indv test:description ?description .
+  ?indv test:recipeImage ?recipeimg .
+  ?indv test:recipieIngredient ?recipeingredient .
+  ?indv test:recipeInstructions ?recipesteps .
+  ?indv test:datePublished ?recipepublished .
+  ?indv test:preparationTime ?recipepreptime .
+  ?indv test:cookingTime ?recipecookingtime .
+  ?indv test:mealType ?recipemealtype .     
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT *
+WHERE
+{
+  ?indv a test:Recipe .
+  ?indv test:name ?recipename .
+  ?indv test:authorBy ?author .  
+  ?indv test:description ?description . 
+  ?indv test:datePublished ?recipepublished .
+  ?indv test:preparationTime ?recipepreptime .
+  ?indv test:cookingTime ?recipecookingtime .  
+  ?indv test:recipeImage ?recipeimg .
+  ?indv test:recipieIngredient ?recipeingredient .
+  ?indv test:recipeInstructions ?recipesteps .
+  ?indv test:mealType ?recipemealtype .  
+  ?author a test:User .
+  ?author test:userFirstName ?userfn.
+  ?author test:userLastName ?userln .
+  ?author test:userEmail ?useremail .
+}
+
+# Like and Comment
+SELECT ?indv ?recipeid ?recipename  ?useremail ?fullname ?nooflikes ?noofComments
+               WHERE
+                    {
+                        ?indv a test:Recipe .   
+                        ?indv test:recipe_id ?recipeid .                 
+                        ?indv test:name ?recipename .
+                        ?indv test:authoredBy ?author .  
+                        ?indv test:datetimePublished ?dtpublished .                        
+   						
+                        ?author test:userFirstName ?userfirstname .
+  						?author test:userLastName ?userlastname .
+                        ?author test:userEmail ?useremail .  
+                        ?indv test:numberOfLikes ?nooflikes .
+                        ?indv test:numberOfComments ?noofComments .   
+  						BIND(concat(?userfirstname," ",?userlastname) as ?fullname) .
+                        
+  FILTER (?useremail = 'ronakvtcbb@gmail.com' && ?recipeid = 'Recipe_5460ee8d7030419aa667ee449d564c3b')
+			}
+
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT *
+WHERE
+{
+  ?indv a test:Recipe .
+  ?indv test:name ?recipename .
+  ?indv test:authorBy ?author .  
+  ?indv test:description ?description . 
+  ?indv test:datePublished ?recipepublished .
+  ?indv test:preparationTime ?recipepreptime .
+  ?indv test:cookingTime ?recipecookingtime .     
+}
+
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+SELECT ?indv ?unitid ?unittype ?y
+WHERE
+{
+  
+    ?indv a test:Unit .
+    ?indv test:unit_id ?unitid .
+    ?indv test:unitType ?unittype .
+    ?indv test:hasUnitForm ?y .
+    
+}
+
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?x ?xfn ?xln ?xuemail ?y ?yfn ?yln ?yuemail
+WHERE 
+{
+   ?x a test:User .
+   ?x test:userFirstName ?xfn .
+   ?x test:userLastName ?xln .
+   ?x test:userEmail ?xuemail .
+   ?x test:isfollowing ?y .
+   ?y test:userFirstName ?yfn .
+   ?y test:userLastName ?yln .
+   ?y test:userEmail ?yuemail .
+     Filter(?xuemail = 'ronakvtcbb@gmail.com')
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?x ?xfn ?xln ?xuemail ?y ?yfn ?yln ?yuemail
+WHERE 
+{
+   ?x a test:User .
+   ?x test:userFirstName ?xfn .
+   ?x test:userLastName ?xln .
+   ?x test:userEmail ?xuemail .
+   ?x test:isfollower ?y .
+   ?y test:userFirstName ?yfn .
+   ?y test:userLastName ?yln .
+   ?y test:userEmail ?yuemail .
+     Filter(?xuemail = 'ronakvtcbb@gmail.com')
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?x ?xfn ?xln ?xuemail ?y ?yfn ?yln ?yuemail
+WHERE 
+{
+   ?x a test:User .
+   ?x test:userFirstName ?xfn .
+   ?x test:userLastName ?xln .
+   ?x test:userEmail ?xuemail .
+   ?x test:isfollowedby ?y .
+   ?y test:userFirstName ?yfn .
+   ?y test:userLastName ?yln .
+   ?y test:userEmail ?yuemail .
+  Filter(?yuemail = 'ronakvtcbb@gmail.com')
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?x ?xfn ?y ?yfn
+WHERE 
+{
+   ?x a test:User .
+   ?x test:userFirstName ?xfn .
+   ?x test:isfollowedby ?y .
+   ?y test:userFirstName ?yfn .
+}
+
+
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+               
+SELECT   (count(?fid) as ?id) ?uemail
+WHERE
+{
+ ?y a test:Follower .
+ ?y test:follower_id ?fid .
+ ?y test:isFollower ?x .
+ ?x a test:User .
+ ?x test:userEmail ?uemail .
+  FILTER(?uemail = 'janki@gmail.com')
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+               
+SELECT ?y ?fn ?uemail ?x ?femail
+WHERE
+{
+ ?y a test:Follower .
+ ?y test:follower_emailid ?femail .
+ ?y test:isFollower ?x .
+ ?x a test:User .
+ ?x test:userFirstName ?fn .
+ ?x test:userEmail ?uemail .
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ( count(?followerid) as ?id )
+WHERE
+{
+          ?indv a test:Follower . 
+          ?indv test:follower_id ?followerid .
+          ?indv test:follower_emailid ?followeremailid .
+          ?indv test:isFollower ?user . 
+          ?user test:userEmail ?useremail
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv ?followerid ?followeremailid ?user ?useremail
+WHERE
+{
+          ?indv a test:Follower . 
+          ?indv test:follower_id ?followerid .
+          ?indv test:follower_emailid ?followeremailid .
+          ?indv test:isFollower ?user . 
+          ?user test:userEmail ?useremail
+}
+
+ORDER By ?followerid
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv ?followerid ?followeremailid ?useremail
+WHERE
+{
+          ?indv a test:Follower . 
+          ?indv test:follower_id ?followerid .
+          ?indv test:follower_emailid ?followeremailid .
+          ?indv test:isFollower ?useremail . 
+}
+
+ORDER By ?followerid
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+SELECT?ind ?unittype
+WHERE
+{
+   ?ind a test:Unit .   
+   ?ind test:hasUnitForm ?unittype .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+SELECT?classname ?instancename ?unittype
+WHERE
+{
+?classname rdfs:subClassOf* test:Ingredient .
+    ?instancename a ?classname .
+   ?instancename test:hasUnitForm ?unittype .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?classname  ?instancename ?ingredientid ?ingredientname ?y
+WHERE
+{
+    ?classname rdfs:subClassOf* test:Ingredient .
+    ?instancename a ?classname .
+ ?instancename test:ingredient_id ?ingredientid .
+ ?instancename test:name ?ingredientname .         
+  ?instancename test:hasUnitForm ?y .             
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+               
+SELECT ?x ?recipename ?y ?fn ?uemail
+WHERE
+{
+ ?x a test:Recipe .
+ ?x test:name ?recipename .
+ ?x test:authoredBy ?y .
+ ?y a test:User .
+  ?y test:userFirstName ?fn .
+  ?y test:userEmail ?uemail .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+construct
+where
+{
+ ?x a test:User .
+ ?x test:user_id ?uid .
+ ?x test:userFirstName ?fname .
+ ?x test:userLastName ?lname .
+ ?x test:userEmail ?uemail .
+ ?x test:userGender ?ugender .
+ ?x test:userDateOfBirth ?udob .
+ ?x test:userPassword ?upass .    
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+               
+SELECT ?x ?uid ?fname ?lname ?udob ?uemail ?ugender ?upass
+WHERE
+{
+ ?x a test:User .
+ ?x test:user_id ?uid .
+ ?x test:userFirstName ?fname .
+ ?x test:userLastName ?lname .
+ ?x test:userEmail ?uemail .
+ ?x test:userGender ?ugender .
+ ?x test:userDateOfBirth ?udob .
+ ?x test:userPassword ?upass .    
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv ?unitid ?unittype
+WHERE
+{
+    ?indv rdf:type test:Unit .
+    ?indv test:unit_id ?unitid .
+    ?indv test:unitType ?unittype .               
+}
+ORDER BY ?unitid
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv  ?mealtypeid ?mealtypename
+WHERE
+{
+   ?indv a test:MealType .
+   ?indv test:mealtype_id ?mealtypeid .
+   ?indv test:mealtypeName ?mealtypename .
+}
+ORDER BY ?mealtypeid
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?classname  ?instancename ?ingredientid ?ingredientname
+WHERE
+{
+    ?classname rdfs:subClassOf* test:Ingredient .
+    ?instancename a ?classname .
+ ?instancename test:ingredient_id ?ingredientid .
+ ?instancename test:name ?ingredientname .                      
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?classname  ?instancename ?ingredientid ?ingredientname
+WHERE
+{
+    ?classname rdfs:subClassOf* test:Ingredient .
+    ?instancename a ?classname .
+    Optional {   ?instancename test:ingredient_id ?ingredientid }
+    Optional { ?instancename test:name ?ingredientname }                            
+}
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.receipeonto.org/onto#>
+
+
+SELECT (MAX(?userid)+1 AS ?uid) WHERE { ?x a test:User . ?x test:userId ?userid . }
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.receipeonto.org/onto#>
+
+insert data
+{
+ test:User4 rdf:type test:User .
+ test:User4 rdf:type owl:NamedIndividual .  
+ test:User4 test:userId 4 .
+ test:User4 test:userFirstName "Mantra" .
+ test:User4 test:userLastName "Panchal" .
+ test:User4 test:userEmail "mantra@gmail.com" .
+ test:User4 test:userGender "Male" .
+ test:User4 test:userDateOfBirth "2012-11-08T02:30:11" .
+ test:User4 test:userPassword "Mantra@123" .    
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.receipeonto.org/onto#>
+               
+SELECT ?x ?uid ?fname ?lname ?udob ?uemail ?ugender ?upass
+WHERE
+{
+ ?x a test:User .
+ ?x test:userId ?uid .
+ ?x test:userFirstName ?fname .
+ ?x test:userLastName ?lname .
+ ?x test:userEmail ?uemail .
+ ?x test:userGender ?ugender .
+ ?x test:userDateOfBirth ?udob .
+ ?x test:userPassword ?upass .    
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.receipeonto.org/onto#>
+               
+SELECT (count(?uid) as ?id)
+WHERE
+{
+ ?x a test:User .
+ ?x test:userId ?uid .
+ ?x test:userFirstName ?fname .
+ ?x test:userLastName ?lname .
+ ?x test:userEmail ?uemail .
+ ?x test:userPassword ?upass . 
+ Filter(?uemail = '""" + uname + """' && ?upass = '""" + upass + """')    
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.receipeonto.org/onto#>
+               
+SELECT (count(?uid) as ?id)
+WHERE
+{
+ ?x a test:User .
+ ?x test:userId ?uid .
+ ?x test:userFirstName ?fname .
+ ?x test:userLastName ?lname .
+ ?x test:userEmail ?uemail .
+ ?x test:userPassword ?upass . 
+ Filter(?uemail = 'shyam@gmail.com' && ?upass = 'Shaym@123')  
+}
+
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX s: <http://schema.org/>
+SELECT ?x ?pname ?pemail ?pbdate
+WHERE
+{
+   ?x rdf:type s:Person .
+   ?x s:name ?pname .
+   ?x s:email ?pemail .
+   ?x s:birthDate ?pbdate .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX s: <http://schema.org/>
+PREFIX schema: <http://schema.org/>
+insert data
+{
+   schema:Person2 rdf:type schema:Person .
+   schema:Person2 rdf:type owl:NamedIndividual .
+   schema:Person2 schema:Id	"P2" .
+   schema:Person2 schema:name "Shashank" .
+   schema:Person2 schema:email "shashank.startup@gmail.com" .
+   schema:Person2 schema:birthDate "1986-03-03T20:10:10"^^xsd:datetime .
+}
+
+
+{
+  "@context": "http://schema.org/",
+  "@type": "Person",
+  "name": "Jane Doe",
+  "jobTitle": "Professor",
+  "telephone": "(425) 123-4567",
+  "url": "http://www.janedoe.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Philadelphia",
+      "addressRegion": "PA"
+    }
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipeontology.com/onto#>
+PREFIX schema: <http://schema.org/>
+SELECT ?x ?id ?name
+WHERE
+{
+?x a test:Ingredients .
+?x schema:identifier ?id .
+?x schema:name ?name .
+}
+						
+SELECT ?x ?postid ?posttitle ?posttype ?comments ?likes ?path ?postdatetime
+WHERE {
+ ?x a test:Post .
+  ?x test:postID ?postid .
+  ?x test:postTtle ?posttitle .
+  ?x test:postType ?posttype .
+  ?x test:comments ?comments .
+  ?x test:likes ?likes .
+  ?x test:postPath ?path .
+  ?x test:postDateTime ?postdatetime .
+}
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX test: <http://www.recipeontology.com/onto#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+insert data
+{
+test:Post3 rdf:type test:Post .
+test:Post3 rdf:type owl:NamedIndividual .
+test:Post3 test:postID 3 .
+test:Post3 test:postTtle 'Testy Panjabi Recipe' .
+test:Post3 test:postType 'Image' .
+test:Post3 test:postPath 'assets/post/9.jpeg'.
+test:Post3 test:likes '1' .
+test:Post3 test:comments 'Fantastic' .
+  test:Post3 test:postDateTime xsd:dateTime(NOW()) .
+}
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX test: <http://www.recipeontology.com/onto#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+
+insert data
+{
+test:Post3 rdf:type test:Post .
+test:Post3 rdf:type owl:NamedIndividual .
+test:Post3 test:postID 4 .
+test:Post3 test:postTtle 'Gujarati Thepla Recipe' .
+test:Post3 test:postType 'Image' .
+test:Post3 test:postPath 'assets/post/8.jpeg'.
+test:Post3 test:likes '2' .
+test:Post3 test:comments 'Delecious' .
+test:Post3 test:postDateTime '2021-07-18T11:22:11' .
+}
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX test: <http://www.recipeontology.com/onto#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+delete where 
+{ 
+   
+ ?x a test:Post .
+  
+  ?x test:postTtle ?posttitle .
+  ?x test:postType ?posttype .
+  ?x test:comments ?comments .
+  ?x test:likes ?likes .
+  ?x test:postPath ?path .
+  ?x test:postDateTime ?postdatetime .
+?x test:postID "3"^^xsd:integer .
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+               
+SELECT ?x ?uid ?fname ?lname ?udob ?uemail ?ugender ?upass
+WHERE
+{
+ ?x a test:User .
+ ?x test:user_id ?uid .
+ ?x test:userFirstName ?fname .
+ ?x test:userLastName ?lname .
+ ?x test:userEmail ?uemail .
+ ?x test:userGender ?ugender .
+ ?x test:userDateOfBirth ?udob .
+ ?x test:userPassword ?upass .    
+}
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX test: <http://www.recipeontology.com/onto#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+insert data
+{
+test:Post4 rdf:type test:Post .
+test:Post4 rdf:type owl:NamedIndividual .
+test:Post4 test:postID 4 .
+test:Post4 test:postTtle 'Maxicon Pizza' .
+test:Post4 test:postType 'Image' .
+test:Post4 test:postPath 'assets/post/7.jpeg'.
+test:Post4 test:likes '3' .
+test:Post4 test:comments 'Good' .
+  test:Post4 test:postDateTime "2021-07-18T12:52:12"^^xsd:dateTime .
+}
+
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.testrecipe.com/ontology#>
+SELECT ?instancename ?classname
+WHERE
+{
+      ?classname rdfs:subClassOf* test:Ingredient .
+     ?instancename a ?classname .
+}
+
+SELECT ?x ?r
+WHERE 
+{
+   ?x a test:Recipe .
+   ?x test:hasIngredient ?r .
+}
+
+Give me all recipes and thair ingredient
+
+SELECT ?class WHERE { test:Orange a ?class . }
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.testrecipe.com/ontology#>
+SELECT ?recipename  ?allergyclassname ?ingredientclassname
+WHERE 
+{  
+ ?allergyclassname rdfs:subClassOf* test:Allergy .
+     ?ingredientclassname a ?allergyclassname .
+     ?recipename a test:Recipe .
+    ?recipename test:hasIngredient ?ingredientclassname .
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ns: <http://www.recipe.com/ontology#>
+SELECT ?x ?followername ?y ?followingname 
+WHERE
+{
+  
+    ?x ns:followedBy ?y .
+      ?x ns:userFirstName ?followername .
+ ?y ns:userFirstName ?followingname .
+
+}
+
+Find Inverse follower
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ns: <http://www.recipe.com/ontology#>
+SELECT ?x ?followername ?y ?followingname 
+WHERE
+{
+  
+    ?x ^ns:followedBy ?y .
+      ?x ns:userFirstName ?followername .
+ ?y ns:userFirstName ?followingname .
+
+}
+
+# User follows
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ns: <http://www.recipe.com/ontology#>
+SELECT *
+WHERE
+{
+  
+    ?x ns:follows ?y .
+    ?x ns:userFirstName ?followername .
+    ?x ns:userEmail ?followermail .
+    ?y ns:userFirstName ?followingname .
+     ?y ns:userEmail ?followingmail .
+    FILTER(?followermail = 'Shashank@gmail.com')
+}
+
+# User followed by
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ns: <http://www.recipe.com/ontology#>
+SELECT *
+WHERE
+{
+  
+    ?x ^ns:follows ?y .
+    ?x ns:userFirstName ?followername .
+    ?x ns:userEmail ?followermail .
+    ?y ns:userFirstName ?followingname .
+     ?y ns:userEmail ?followingmail .
+    FILTER(?followermail = 'Shashank@gmail.com')
+}
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+SELECT (count(?yfn) as ?id)
+WHERE
+{
+  
+    ?x ^test:follows ?y .
+   ?x test:userFirstName ?xfn .
+            ?x test:userLastName ?xln .
+            ?x test:userEmail ?xuemail .
+    ?y test:userFirstName ?yfn .
+            ?y test:userLastName ?yln .
+            ?y test:userEmail ?yuemail .
+    FILTER(?xuemail = 'Shashank@gmail.com')
+}
+
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+select ?follower ?influencer
+Where {  
+{ ?follower test:follows ?influencer. }
+UNION
+{ ?follower test:followedBy ?follower.}
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ns: <http://www.recipe.com/ontology#>
+select ?subject ?follower ?influencer
+Where {  
+{ ?subject ns:follows ?influencer. }
+UNION
+{ ?subject ns:followedBy ?follower.}
+}
+
+
+prefix fn: <http://www.w3.org/2005/xpath-functions#> 
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+select *
+where 
+{
+ ?indv a test:Recipe .
+                    ?indv test:name ?recipename .
+                    ?indv test:authoredBy ?author .  
+                    ?indv test:description ?description . 
+                    ?indv test:datePublished ?recipepublished .
+                    ?indv test:preparationTime ?recipepreptime .                   
+                    ?indv test:recipeImage ?recipeimg .                    
+                    ?indv test:recipeInstructions ?recipesteps .
+                   ?indv test:hasMealType ?recipemealtype . 
+                   ?indv test:hasIngredient ?recipeingredient .
+                   ?indv test:recipeLike ?recipelike .
+                    ?indv test:recipeComment ?recipecomment .
+                   ?indv test:isCommentedBy ?commentuser .  
+  	?author a test:User .
+                    ?author test:userFirstName ?userfn.
+                    ?author test:userLastName ?userln .
+                    ?author test:userEmail ?useremail .
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+select *
+                WHERE
+                {
+                    ?indv a test:Recipe .
+                     ?indv test:name ?recipename .
+                    ?indv test:authoredBy ?author .  
+                    ?indv test:description ?description . 
+                    ?indv test:datePublished ?recipepublished .
+                    ?indv test:preparationTime ?recipepreptime .                   
+                    ?indv test:recipeImage ?recipeimg .       
+                    ?indv test:recipeCookingStepImage ?recipecstepimg .
+                    ?indv test:recipieIngredient ?recipeingredient .  
+                    ?indv test:recipeInstructions ?recipesteps .
+                    ?indv test:recipeMealType ?recipemealtype .
+                      ?indv test:recipeLike ?recipelike .
+                    ?indv test:recipeComment ?recipecomment .
+                  ?author a test:User .
+                    ?author test:userFirstName ?userfn.
+                    ?author test:userLastName ?userln .
+                    ?author test:userEmail ?useremail .
+
+}
+
+#Remove all triple
+delete 
+WHERE {
+  ?subject ?predicate ?object
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+select *
+                WHERE
+                {
+                    ?indv a test:Recipe .
+                     ?indv test:name ?recipename .
+                    ?indv test:authoredBy ?author .  
+                    ?indv test:description ?description . 
+                    ?indv test:datePublished ?recipepublished .
+                    ?indv test:preparationTime ?recipepreptime .                   
+                    ?indv test:recipeImage ?recipeimg .       
+                    ?indv test:recipeCookingStepImage ?recipecstepimg .
+                    ?indv test:recipieIngredient ?recipeingredient .  
+                    ?indv test:recipeInstructions ?recipesteps .
+                    ?indv test:recipeMealType ?recipemealtype .
+                      ?indv test:recipeLike ?recipelike .
+                    ?indv test:recipeComment ?recipecomment .
+                  ?author a test:User .
+                    ?author test:userFirstName ?userfn.
+                    ?author test:userLastName ?userln .
+                    ?author test:userEmail ?useremail .
+
+}
+
+
+# All Follower and Following detail of perticular user
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+SELECT *
+WHERE
+{
+
+  
+{    ?x ^test:follows ?y .
+   ?x test:userFirstName ?xfn .
+            ?x test:userLastName ?xln .
+            ?x test:userEmail ?xuemail .
+    ?y test:userFirstName ?yfn .
+            ?y test:userLastName ?yln .
+            ?y test:userEmail ?yuemail .
+}
+union
+{    ?x test:follows ?y .
+   ?x test:userFirstName ?xfn .
+            ?x test:userLastName ?xln .
+            ?x test:userEmail ?xuemail .
+    ?y test:userFirstName ?yfn .
+            ?y test:userLastName ?yln .
+            ?y test:userEmail ?yuemail .
+}
+
+    FILTER(?xuemail = 'Shashank@gmail.com')
+}
+
+
+SELECT *
+WHERE
+{
+  
+    ?x ns:follows ?y .
+    ?x ns:userFirstName ?followername .
+    ?x ns:userEmail ?followermail .
+    ?y ns:userFirstName ?followingname .
+     ?y ns:userEmail ?followingmail .
+    FILTER(?followermail = 'Shashank@gmail.com')
+}
+
+delete {  ?x ns:follows ?y . ?x ns:userFirstName ?followername . ?x ns:userEmail ?followermail . 
+          ?y ns:userFirstName ?followingname . ?y ns:userEmail ?followingmail . } 
+insert { ?x ns:follows ?y . ?x ns:userFirstName ?followername . ?x ns:userEmail ?followermail . 
+         ?y ns:userFirstName ?followingname . ?y ns:userEmail ?followingmail . }
+WHERE { ?x ns:follows ?y . ?x ns:userFirstName ?followername . ?x ns:userEmail ?followermail .
+    ?y ns:userFirstName ?followingname . ?y ns:userEmail 'Shashank@gmail.com' . }
+	
+	
+	verify that no triples exist after the delete? just doing select * { {<uri> ?p ?o} union {?s ?p <uri>}} or describe <uri>
+	
+	delete WHERE {  ?x ns:follows ns:User4  }
+	
+	insert data {  ns:User5 ns:follows ns:User4  }
+	
+insert data {  ns:User5 ns:follows ns:User4 . }
+	select * where { ?x ns:follows ?y . }
+	
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                PREFIX te: <http://www.w3.org/2006/time-entry#>
+                prefix test: <http://www.recipe.com/ontology#>
+
+#select * WHERE {  ?x test:follows ?y  }
+#delete WHERE {  <http://www.recipe.com/ontology#User5> <http://www.recipe.com/ontology#follows> <http://www.recipe.com/ontology#User4>  }
+#insert data {  <http://www.recipe.com/ontology#User5> <http://www.recipe.com/ontology#follows> <http://www.recipe.com/ontology#User6>  }
+
+
+delete
+WHERE {
+   ?x test:follows ?y .
+   ?x ?p ?o .
+   ?x test:userEmail "Kinjal@gmail.com" .
+}
+
+select *
+WHERE {
+   ?x test:follows ?y .
+   ?x ?p ?o .
+   ?x test:userEmail "Kinjal@gmail.com" .
+}
+	
+	SELECT *
+WHERE {
+   ?cls rdfs:subClassOf* test:User .
+   ?individual a ?cls .
+   ?individual ?p ?o .
+}
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                PREFIX te: <http://www.w3.org/2006/time-entry#>
+                prefix test: <http://www.recipe.com/ontology#>
+#
+#select * WHERE {  ?x test:follows ?y . }
+#select * WHERE {  ?x test:follows ?y . ?x ?p ?o . }
+#delete WHERE {  <http://www.recipe.com/ontology#User5> <http://www.recipe.com/ontology#follows> <http://www.recipe.com/ontology#User4>  }
+#insert data {  
+#  <http://www.recipe.com/ontology#User4> <http://www.recipe.com/ontology#follows> <http://www.recipe.com/ontology#User3> .
+#}
+#delete
+#WHERE {
+#   ?x test:follows ?y .
+#   ?x test:userEmail "janki@gmail.com" .
+#   ?y test:userEmail "prashant@gmail.com" .
+#}
+#delete WHERE {  <http://www.recipe.com/ontology#User4> <http://www.recipe.com/ontology#follows> <http://www.recipe.com/ontology#User3> }
+
+SELECT ?x ?uid ?firstname ?lastname ?udob ?uemail ?ugender ?upass ?profileimage
+                WHERE
+                {
+                    ?x a test:User .
+                    ?x test:user_id ?uid .
+                    ?x test:userFirstName ?firstname .
+                    ?x test:userLastName ?lastname .
+                    ?x test:userEmail ?uemail  .
+                    ?x test:userGender ?ugender .
+                    ?x test:userDateOfBirth ?udob .
+                    ?x test:userPassword ?upass .   
+                   MINUS {
+      ?x test:userEmail "janki@gmail.com" .
+   }
+                }
+
+#SELECT * {
+#   ?x test:follows ?y . 
+#   FILTER NOT EXISTS {  test:User5 test:follows test:User6 .  } .
+#}
+
+
+SELECT * where {
+       ?classname rdfs:subClassOf* test:Ingredient .    
+       ?instancename a ?classname .
+       ?instancename test:isAnAllergicOf ?y .
+}
+
+
+SELECT DISTINCT ?y where {
+       ?classname rdfs:subClassOf* test:Ingredient .    
+       ?instancename a ?classname .
+       ?instancename test:isAnAllergicOf ?y .
+        {
+			SELECT ?indv (GROUP_CONCAT(?instancename;SEPARATOR=", ") as ?instancenames)
+  			where
+        	{
+      			?indv a test:Recipe .
+      			?indv test:recipe_id ?recipeid .
+      			?indv test:hasIngredientContainer ?ingredientcontainer .
+      			?ingredientcontainer test:hasIngredient ?instancename .				
+      			FILTER (?recipeid = 'Recipe_4488479beb844ce58284c41f59ced441')	
+    		}
+			GROUP BY ?indv
+    	}
+}
+
+
+SELECT ?indv	(GROUP_CONCAT(?ingredient;SEPARATOR=", ") as ?ingredients) (GROUP_CONCAT(?unittype;SEPARATOR=", ") as ?unittypes) (GROUP_CONCAT(?quantity;SEPARATOR=", ") as ?quantitys) 
+                        WHERE
+                        {
+                            ?indv a test:Recipe .
+                            ?indv test:recipe_id ?recipeid .
+                            ?indv test:hasIngredientContainer ?ingredientcontainer .   
+                            ?ingredientcontainer test:quantity ?quantity .
+                            ?ingredientcontainer test:hasIngredient ?ingredient .
+                            ?ingredientcontainer test:hasUnitType ?unittype . 
+  							
+  							
+                            FILTER (?recipeid='Recipe_572c4d0b372348688f041e1d12fb0d88')
+                        }
+						GROUP BY ?indv
+                        Order By ?indv 
+ prefix test: <http://www.recipe.com/ontology#>
+SELECT * where {
+       ?classname rdfs:subClassOf* test:Ingredient .    
+       ?instancename a ?classname .
+       ?instancename test:isAnAllergicOf ?y .
+}
+order by ?classname
+
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?recIndv ?ingredientname ?foodallergy
+WHERE
+{
+   ?recIndv a test:Recipe .
+   ?recIndv test:hasIngredient ?ingredientname .
+   ?ingredientname test:isAnAllergicOf ?foodallergy .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>    
+
+CONSTRUCT 
+{
+    ?recIndv test:hasAllergy ?foodallergy .
+}
+WHERE
+{
+    ?recIndv a test:Recipe .
+   ?recIndv test:hasIngredient ?ingredientname .
+   ?ingredientname test:isAnAllergicOf ?foodallergy .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>  
+
+SELECT ?r ?u ?c ?cmsg
+where
+{
+    ?r a test:Recipe .
+    ?r test:isCommentedBy ?u .
+     ?u test:writes ?c .
+     ?c test:commentMessage ?cmsg .
+}
+
+SELECT (count(?u) as ?id) 
+where
+{
+    ?u test:likes ?r .
+    ?u test:userFirstName ?uname .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>  
+
+SELECT ?r ?u ?l ?likeflag
+where
+{
+    ?r a test:Recipe .
+    ?r test:isLikedBy ?u .
+     ?u test:gives ?l .
+     ?l test:likeValue ?likeflag .
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?recIndv (GROUP_CONCAT(?foodallergy;SEPARATOR=", ") as ?foodallergies) (GROUP_CONCAT(?ingredientname;SEPARATOR=", ") as ?ingredientnames)  where {
+     ?recIndv a test:Recipe .
+   ?recIndv test:hasIngredient ?ingredientname . 
+   
+   ?ingredientname test:isAnAllergicOf ?foodallergy .
+}
+GROUP BY ?recIndv
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?recIndv (GROUP_CONCAT(?foodallergy;SEPARATOR=", ") as ?foodallergies) (GROUP_CONCAT(?ingrname;SEPARATOR=", ") as ?ingrnames)  where {
+     ?recIndv a test:Recipe .
+   ?recIndv test:hasIngredient ?ingredientname . 
+   ?ingredientname test:name ?ingrname .
+   ?ingredientname test:isAnAllergicOf ?foodallergy .
+}
+GROUP BY ?recIndv
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?recIndv (GROUP_CONCAT(?foodallergyname;SEPARATOR=", ") as ?foodallergynames) (GROUP_CONCAT(?ingrname;SEPARATOR=", ") as ?ingrnames)  where {
+     ?recIndv a test:Recipe .
+   ?recIndv test:hasIngredient ?ingredientname . 
+   ?ingredientname test:name ?ingrname .
+   ?ingredientname test:isAnAllergicOf ?foodallergy .
+   ?foodallergy test:name ?foodallergyname .
+}
+GROUP BY ?recIndv
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?recIndv  (GROUP_CONCAT(?ingredientname;SEPARATOR=", ") as ?ingredientnames) where {
+     ?recIndv a test:Recipe .
+   ?recIndv test:hasIngredient ?ingredientname . 
+   
+   
+}
+GROUP BY ?recIndv
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?instancename (GROUP_CONCAT(?unittype;SEPARATOR=", ") as ?unittypes) 
+WHERE
+{
+    ?classname rdfs:subClassOf* test:Ingredient .      
+    ?instancename a ?classname .
+    ?instancename test:name ?ingrname .
+  	?instancename test:hasUnitForm ?unitform .
+    ?unitform test:hasUnitType ?unittype .
+  	FILTER (?ingrname = "Almond")
+}
+GROUP BY ?instancename 
+
+SELECT ?instancename ?ingrname
+WHERE
+{
+    ?classname rdfs:subClassOf* test:Ingredient .      
+    ?instancename a ?classname .
+    ?instancename test:name ?ingrname .  	
+}
+
+SELECT ?instancename ?ingrname
+WHERE
+{
+    ?classname rdfs:subClassOf* test:Ingredient .      
+    ?instancename a ?classname .
+    ?instancename test:name ?ingrname .
+  	?instancename test:hasUnitForm ?unitform .
+    ?unitform test:hasUnitType ?unittype .
+  	FILTER (?ingrname = "Almond")
+}
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv  (GROUP_CONCAT(?recipeingredient;SEPARATOR=", ") as ?recipeingredients) ?recipename ?author  where {
+     
+  
+  								?indv a test:Recipe .
+#                                ?indv test:name ?recipename .                               
+#                                ?indv test:authoredBy ?author .
+#  								?indv test:userFirstName ?userfn .
+#                                ?indv test:userLastName ?userln .
+#                                ?indv test:userEmail ?useremail . 
+#                                ?indv test:description ?description .
+#                                ?indv test:datePublished ?recipepublished .
+#                                ?indv test:preparationTime ?recipepreptime .
+#                                ?indv test:cookingTime ?cookingTime .         
+#                                ?indv test:recipeImage ?recipeimg .
+#                                ?indv test:recipeCookingStepImage ?recipecstepimg .
+                                ?indv test:hasIngredient ?recipeingredient .  
+#                                ?indv test:recipeInstructions ?recipesteps .
+#                                ?indv test:recipeMealType ?recipemealtype .
+#                                ?indv test:recipeLike ?recipelike .
+#                                ?indv test:recipeComment ?recipecomment .
+#                                ?indv test:hasAllergy ?foodallergy .   
+}
+GROUP BY ?indv ?recipename ?author
+
+            
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv  (GROUP_CONCAT(?recipeimg;SEPARATOR=", ") as ?recipeimgs)    where {
+     
+  
+  								?indv a test:Recipe .
+                             ?indv test:name ?recipename .                               
+                               ?indv test:authoredBy ?author .
+#  								?indv test:userFirstName ?userfn .
+#                                ?indv test:userLastName ?userln .
+#                                ?indv test:userEmail ?useremail . 
+                                ?indv test:description ?description .
+                                ?indv test:datePublished ?recipepublished .
+                                ?indv test:preparationTime ?recipepreptime .
+                                ?indv test:cookingTime ?cookingTime .         
+                               ?indv test:recipeImage ?recipeimg .
+#                                ?indv test:recipeCookingStepImage ?recipecstepimg .
+ #                               ?indv test:hasIngredient ?recipeingredient .  
+#                                ?indv test:recipeInstructions ?recipesteps .
+#                                ?indv test:recipeMealType ?recipemealtype .
+#                                ?indv test:recipeLike ?recipelike .
+#                                ?indv test:recipeComment ?recipecomment .
+#                                ?indv test:hasAllergy ?foodallergy .   
+}
+GROUP BY ?indv 
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv (GROUP_CONCAT(DISTINCT ?recipeingredient;SEPARATOR=", ") as ?recipeingredients) (GROUP_CONCAT(DISTINCT ?recipemealtype;SEPARATOR=", ") as ?recipemealtypes) (GROUP_CONCAT(DISTINCT ?foodallergy;SEPARATOR=", ") as ?foodallergys) ?rsteps   where {
+     
+  
+  								  								?indv a test:Recipe .
+                                ?indv test:name ?recipename .                               
+                                ?indv test:authoredBy ?author .
+  								?author test:userFirstName ?userfn .
+                                ?author test:userLastName ?userln .
+                                ?author test:userEmail ?useremail . 
+                                ?indv test:description ?description .
+                                ?indv test:datePublished ?recipepublished .
+                                ?indv test:preparationTime ?recipepreptime .
+                                ?indv test:cookingTime ?cookingTime .         
+                                ?indv test:recipeImage ?recipeimg .
+  								?indv test:recipeInstructions ?rsteps .
+#                                ?indv test:recipeCookingStepImage ?recipecstepimg .
+                                ?indv test:hasIngredient ?recipeingredient .  
+#                                ?indv test:recipeInstructions ?recipesteps .
+                                ?indv test:recipeMealType ?recipemealtype .
+#                                ?indv test:recipeLike ?recipelike .
+#                                ?indv test:recipeComment ?recipecomment .
+?recipeingredient test:isAnAllergicOf ?foodallergy .
+}
+GROUP BY ?indv	?rsteps
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#> 
+
+SELECT ?x  ?c ?ca ?nolike ?cnolike ?cu ?ru 
+WHERE
+{
+   ?x a test:Recipe .
+   ?x test:hasComment ?c .
+   ?c test:authoredBy ?ca .
+   ?x test:numberOfLikes ?nolike .
+   ?c test:numberOfLikes ?cnolike .
+   ?c test:isLikedBy ?cu .
+   ?x test:isLikedBy ?ru .   
+}
+
+
+construct {
+                                ?indv a test:Recipe .
+                                ?indv test:name ?recipename .
+                                ?indv test:authoredByFirstName ?userfn .
+                                ?indv test:authoredByLastName ?userln .
+                                ?indv test:authoredByEmail ?useremail . 
+                                ?indv test:authoredBy ?author .
+                                ?indv test:description ?description .
+                                ?indv test:datePublished ?recipepublished .
+                                ?indv test:preparationTime ?recipepreptime .
+                                ?indv test:cookingTime ?cookingTime .         
+                                ?indv test:recipeImage ?recipeimg .
+                                ?indv test:recipeCookingStepImage ?recipecstepimg .
+                                ?indv test:recipieIngredient ?recipeingredient .  
+                                ?indv test:recipeInstructions ?recipesteps .
+                                ?indv test:recipeMealType ?recipemealtype .
+                                ?indv test:recipeLike ?recipelike .
+                                ?indv test:recipeComment ?recipecomment .
+                                ?indv test:hasAllergy ?foodallergy .
+                            }  
+                                WHERE
+                                {
+                                ?indv a test:Recipe .
+                                ?indv test:name ?recipename .
+                                ?indv test:authoredBy ?author .  
+                                ?author a test:User .
+                                ?author test:userFirstName ?userfn.
+                                ?author test:userLastName ?userln .
+                                ?author test:userEmail ?useremail .
+                                ?indv test:description ?description .
+                                ?indv test:datePublished ?recipepublished .
+                                ?indv test:preparationTime ?recipepreptime . 
+                                ?indv test:cookingTime ?cookingTime .        
+                                ?indv test:recipeImage ?recipeimg .    
+                                OPTIONAL { ?indv test:recipeCookingStepImage ?recipecstepimg }
+                                ?indv test:recipieIngredient ?recipeingredient .  
+                                ?indv test:recipeInstructions ?recipesteps .
+                                ?indv test:recipeMealType ?recipemealtype .
+                                ?indv test:recipeLike ?recipelike .
+                                ?indv test:recipeComment ?recipecomment .                        
+                                ?indv test:recipieIngredient ?ingredientname .
+                                ?ingredientname test:isAnAllergicOf ?foodallergy .
+                                } ORDER BY ?recipepublished
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv (GROUP_CONCAT(?recipeimage;SEPARATOR=", ") as ?recipeimages) ?recipeid ?recipename ?dtpublished ?description ?fullname ?userphoto ?nooflikes
+               WHERE
+                    {
+                        ?indv a test:Recipe .   
+  						?indv test:recipe_id ?recipeid .
+                        ?indv test:name ?recipename .
+                        ?indv test:authoredBy ?author .  
+                        ?indv test:datetimePublished ?dtpublished .                        
+   						?indv test:description ?description .                         
+  						?indv test:recipeImage ?recipeimage .		
+  						?author test:profile_image ?userphoto .
+                        ?author test:userFirstName ?userfirstname .
+  						?author test:userLastName ?userlastname .
+  					OPTIONAL { ?indv test:numberOfLikes ?nooflikes }
+  						BIND(concat(?userfirstname," ",?userlastname) as ?fullname) .
+			}
+            GROUP BY ?indv ?recipeid ?recipename ?description ?fullname ?userphoto ?dtpublished ?nooflikes
+            ORDER BY DESC (?dtpublished)  
+
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv (GROUP_CONCAT(?recipeimage;SEPARATOR=", ") as ?recipeimages) ?recipeid ?recipename ?dtpublished ?description ?fullname ?userphoto ?nooflikes  (GROUP_CONCAT(?stepdesc;SEPARATOR=", ") as ?stepdescs)
+               WHERE
+                    {
+                        ?indv a test:Recipe .   
+  						?indv test:recipe_id ?recipeid .
+                        ?indv test:name ?recipename .
+                        ?indv test:authoredBy ?author .  
+                        ?indv test:datetimePublished ?dtpublished .                        
+   						?indv test:description ?description .                         
+  						?indv test:recipeImage ?recipeimage .		
+  						?author test:profile_image ?userphoto .
+                        ?author test:userFirstName ?userfirstname .
+  						?author test:userLastName ?userlastname .
+  						?indv test:hasStepContainer ?stepdetails .
+  						?stepdetails test:stepDescription ?stepdesc .
+  					OPTIONAL { ?indv test:numberOfLikes ?nooflikes }
+  						BIND(concat(?userfirstname," ",?userlastname) as ?fullname) .
+			}
+            GROUP BY ?indv ?recipeid ?recipename ?description ?fullname ?userphoto ?dtpublished ?nooflikes  ?stepdesc
+            ORDER BY DESC (?dtpublished)  
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+SELECT ?indv  (GROUP_CONCAT(DISTINCT ?recipeimage;SEPARATOR=", ") as ?recipeimages) ?recipeid ?recipename ?dtpublished ?cookingtime ?preptime ?description ?fullname ?userphoto ?nooflikes ?noofcomments
+               WHERE
+                    {
+                        ?indv a test:Recipe .   
+  						?indv test:recipe_id ?recipeid .
+                        ?indv test:name ?recipename .
+                        ?indv test:authoredBy ?author .  
+                        ?indv test:datetimePublished ?dtpublished .   
+  						?indv test:cookingTime ?cookingtime .
+  						?indv test:preparationTime ?preptime .
+   						?indv test:description ?description .                         
+  						?indv test:recipeImage ?recipeimage .		
+  						?author test:profile_image ?userphoto .
+                        ?author test:userFirstName ?userfirstname .
+  						?author test:userLastName ?userlastname .                       
+  					    ?indv test:numberOfLikes ?nooflikes .
+  						?indv test:numberOfComments ?noofcomments .
+  						?indv test:hasMealType ?mealtype .
+  						?indv test:hasIngredientContainer ?ingredientcontainer .
+  						?indv test:hasStepContainer ?stepcontainer .
+  						BIND(concat(?userfirstname," ",?userlastname) as ?fullname) .
+  				 FILTER (?recipeid='Recipe_487a15d470d543e7b82fb7efac6a92f2')
+			}
+            GROUP BY ?indv ?recipeid ?recipename ?description ?fullname ?userphoto ?cookingtime ?preptime ?dtpublished ?nooflikes ?noofcomments
+         
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX test: <http://www.recipe.com/ontology#>
+
+# describe ?indv WHERE
+#                    {
+#                        ?indv a test:Recipe . 
+#                        ?indv test:recipe_id ?recipeid .
+#}
+
+SELECT ?indv (GROUP_CONCAT(?instancename;SEPARATOR=", ") as ?instancenames)
+  where
+        {
+      			?indv a test:Recipe .
+      			?indv test:recipe_id ?recipeid .
+      			?indv test:hasIngredientContainer ?ingredientcontainer .
+      			?ingredientcontainer test:hasIngredient ?instancename .
+				
+				
+      			FILTER (?recipeid = 'Recipe_4488479beb844ce58284c41f59ced441')
+		}
+GROUP BY ?indv
+
+
+SELECT ?indv  (GROUP_CONCAT(DISTINCT ?recipeimage;SEPARATOR=", ") as ?recipeimages) (GROUP_CONCAT(DISTINCT ?mealtype;SEPARATOR=", ") as ?mealtypes)   ?recipeid ?recipename ?dtpublished ?cookingtime ?preptime ?description ?fullname ?userphoto ?nooflikes ?noofcomments  ?ingredientcontainer ?stepcontainer
+               WHERE
+                    {
+                        ?indv a test:Recipe .   
+  						?indv test:recipe_id ?recipeid .
+                        ?indv test:name ?recipename .
+                        ?indv test:authoredBy ?author .  
+                        ?indv test:datetimePublished ?dtpublished .   
+  						?indv test:cookingTime ?cookingtime .
+  						?indv test:preparationTime ?preptime .
+   						?indv test:description ?description .                         
+  						?indv test:recipeImage ?recipeimage .		
+  						?author test:profile_image ?userphoto .
+                        ?author test:userFirstName ?userfirstname .
+  						?author test:userLastName ?userlastname .                       
+  					    ?indv test:numberOfLikes ?nooflikes .
+  						?indv test:numberOfComments ?noofcomments .
+  						?indv test:hasMealType ?mealtype .
+  						?indv test:hasIngredientContainer ?ingredientcontainer .
+  						?indv test:hasStepContainer ?stepcontainer .
+  						BIND(concat(?userfirstname," ",?userlastname) as ?fullname) .
+  				 FILTER (?recipeid='Recipe_4488479beb844ce58284c41f59ced441')
+			}
+            GROUP BY ?indv ?recipeid ?recipename ?description ?fullname ?userphoto ?cookingtime ?preptime ?dtpublished ?nooflikes ?noofcomments  ?ingredientcontainer ?stepcontainer
+
+
+SELECT ?indv  ?ingredientcontainer ?ingredient ?ingredientname ?unittype ?unittypename ?quantity
+WHERE
+{
+	?indv a test:Recipe .
+  	?indv test:recipe_id ?recipeid .
+	?indv test:hasIngredientContainer ?ingredientcontainer .   
+	?ingredientcontainer test:quantity ?quantity .
+	?ingredientcontainer test:hasIngredient ?ingredient .
+  	OPTIONAL { ?ingredient test:name ?ingredientname }
+  	?ingredientcontainer test:hasUnitType ?unittype .
+  	OPTIONAL { ?unittype test:unitType ?unittypename }
+  
+    FILTER (?recipeid='Recipe_4488479beb844ce58284c41f59ced441')
+}
+Order By ?ingredientcontainer
+        
+		SELECT ?indv  ?unittype
+where
+{
+   ?indv a test:Unit .
+   ?indv test:unitType ?unittype .
+}
+
+
+SELECT ?indv ?recipeid ?author ?fullname ?authorphoto ?commentmessage ?dtpublished ?nooflikes
+{ 
+   ?recipeinstance a test:Recipe .
+   ?recipeinstance test:recipe_id ?recipeid .
+   ?indv a test:Comment .
+   ?indv test:commentMessage ?commentmessage .
+   ?indv test:datetimePublished ?dtpublished .
+   ?indv test:authoredBy ?author .
+   ?author test:userFirstName ?userfirstname .
+   ?author test:userLastName ?userlastname . 
+  BIND (CONCAT(?userfirstname," ",?userlastname) as ?fullname) .
+   ?author test:profile_image ?authorphoto . 
+   ?indv test:numberOfLikes ?nooflikes .
+  FILTER(?recipeid = 'Recipe_166c2eb68ccc424a81decb530172a9d1')
+}
+ORDER BY DESC(?dtpublished)
+
+delete
+where {
+  ?s ?p test:Recipe_10de08d5e6ae43baabe9fb89a69bce5b  .
+}
+
+delete 
+where {
+   test:Recipe_10de08d5e6ae43baabe9fb89a69bce5b ?p ?o .
+}
+
+delete{
+<http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.recipe.com/ontology#authoredBy> ?useriri .
+<http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.recipe.com/ontology#commentMessage> ?commentmessage .
+<http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.recipe.com/ontology#comment_id> ?commentid .
+<http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.recipe.com/ontology#datetimePublished> ?dtpublished .
+<http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.recipe.com/ontology#isCommentedOn> ?recipeiri .
+<http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.recipe.com/ontology#numberOfLikes> ?nooflikes .
+<http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.recipe.com/ontology#Comment> .
+}
+where{
+  <http://www.recipe.com/ontology#Comment_3005a74c75cc4a17bcf82a09a019f842> <http://www.recipe.com/ontology#comment_id> "Comment_3005a74c75cc4a17bcf82a09a019f842" .
+}
+
+
+select * where
+{
+  test:Useruser_af2f9bee1a184974908f3a1bcb0765e0 ?p ?o .
+}
+
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                prefix test: <http://www.recipe.com/ontology#>
+select * where{
+				?indv a test:Recipe .
+                ?indv test:name ?recipename . 
+                ?indv test:hasIngredientContainer ?ingredientcontainer .
+                ?ingredientcontainer test:hasIngredient ?ingredient .
+  
+     ?ingredient rdf:type ?o.
+     ?o rdfs:subClassOf ?superclass .
+     ?superclass rdfs:subClassOf ?toplevel .
+}
+
+
+
+Individual: @A*
+  Types: Movie
+    Facts: movie_id @B* (xsd:integer),
+           name @C*,
+           movie_description @D*,
+           movie_release @E* (xsd:integer),
+           movie_rate @F*,
+           movie_photo @G*
