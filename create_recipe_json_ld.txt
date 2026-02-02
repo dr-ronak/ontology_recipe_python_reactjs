@@ -1,0 +1,87 @@
+{
+  "@graph" : [ {
+    "@id" : "http://www.recipe.com/ontology#Recipe_091b77b5755041939d5e416fd438e1cb",
+    "@type" : "Recipe",
+    "authorBy" : [{"@id":"http://www.recipe.com/ontology#User2", "@type": "User" }],
+    "authorEmail" : "janki@gmail.com",
+    "cookingTime" : "0 Hour(s) 15 Minute(s)",
+    "datePublished" : "23-10-2021T17:4:2",
+    "description" : "This is the special tea.",
+    "mealType" : [ { "@id" : "http://www.recipe.com/ontology#Breakfast", "@type" : "MealType" },
+                  { "@id" : "http://www.recipe.com/ontology#Snacks", "@type" : "MealType" } ],
+    "name" : "special tea",
+    "preparationTime" : "0 Hours(s) 10 Minute(s)",
+    "recipeImage" : ["https://ronupanchal.github.io/images/my_pic.jpg",
+	"https://ronupanchal.github.io/images/my_pic1.jpg",
+	"https://ronupanchal.github.io/images/my_pic2.jpg"]
+    "recipeInstructions" : [{
+      "step": 1,
+      "description": "Crush lime juice, mint and sugar together in glass.",
+	  "recipe_cooking_steps_img":"https://ronupanchal.github.io/images/my_pic3.jpg"
+    },
+    {
+      "step": 2,
+      "description": "Fill glass to top with ice cubes.",
+	  "recipe_cooking_steps_img":"https://ronupanchal.github.io/images/my_pic4.jpg",
+    },
+    {
+      "step": 3,
+      "description": "Pour white rum over ice.",
+	  "recipe_cooking_steps_img":""
+    },
+    {
+      "step": 4,
+      "description": "Fill the rest of glass with club soda, stir.",
+	  "recipe_cooking_steps_img":""
+    },
+    {
+      "step": 5,
+      "description": "Garnish with a lime wedge.",
+	  "recipe_cooking_steps_img":"https://ronupanchal.github.io/images/my_pic5.jpg"
+    } ],
+    "recipieIngredient" : [
+      { "@id" : "http://www.recipe.com/ontology#Almond", "@type" : "Ingredient" },
+      { "@id" : "http://www.recipe.com/ontology#Ginger", "@type" : "Ingredient" }
+      ]
+  } ],
+  "@context" : {
+    "recipeInstructions" : {
+      "@id" : "http://www.recipe.com/ontology#recipeInstructions"
+    },
+    "datePublished" : {
+      "@id" : "http://www.recipe.com/ontology#datePublished"
+    },
+    "mealType" : {
+      "@id" : "http://www.recipe.com/ontology#mealType", "@type": "@id"
+    },
+    "recipieIngredient" : {
+      "@id" : "http://www.recipe.com/ontology#Ingredient", "@type": "@id"
+    },
+    "description" : {
+      "@id" : "http://www.recipe.com/ontology#description"
+    },
+    "cookingTime" : {
+      "@id" : "http://www.recipe.com/ontology#cookingTime"
+    },
+    "name" : {
+      "@id" : "http://www.recipe.com/ontology#name"
+    },
+    "recipeImage" : {
+      "@id" : "http://www.recipe.com/ontology#recipeImage"
+    },
+    "preparationTime" : {
+      "@id" : "http://www.recipe.com/ontology#preparationTime"
+    },
+    "authorBy" : {
+      "@id" : "http://www.recipe.com/ontology#User", "@type": "@id"
+    },
+    "@vocab" : "http://www.recipe.com/ontology#",
+    "test" : "http://www.recipe.com/ontology#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  }
+}
+
+

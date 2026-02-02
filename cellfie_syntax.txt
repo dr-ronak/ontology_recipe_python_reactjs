@@ -1,0 +1,21 @@
+Individual: @A*
+  Types: Movie
+    Facts: movie_id @B* (xsd:integer),
+           name @C*,
+           movie_description @D*,
+           movie_release @E* (xsd:integer),
+           movie_rate @F*,
+           movie_photo @G*
+		   
+		   
+		   
+		   SELECT ?classname  ?instancename ?ingredientid ?ingredientname
+WHERE
+{
+    ?classname rdfs:subClassOf* test:Ingredient .
+    ?instancename a ?classname .
+    Optional {   ?instancename test:ingredient_id ?ingredientid }
+    Optional { ?instancename test:name ?ingredientname }      
+                         
+}
+order by ?classname
