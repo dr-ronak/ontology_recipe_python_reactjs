@@ -1,0 +1,490 @@
+CREATE CONSTRAINT n10s_unique_uri ON (r:Resource) ASSERT r.uri IS UNIQUE
+
+call n10s.graphconfig.init({`_handleVocabUris`:"IGNORE"})
+
+call n10s.onto.import.fetch("file:///C:\Users\Dell\Downloads\CSO\CSO1.ttl","Turtle")
+
+ID	Name	Segment	Type	RM	TL	SH	Area
+LOAD CSV WITH HEADERS FROM 'file:///companies.csv' AS row
+
+http://localhost:11001/project-ecc744fd-92cf-4f5c-bd29-e28e47bca1a0\Inverstor.csv
+
+file://D:\neo4j\relate-data\projects\project-27fe63cf-6403-4748-9a09-aaedcb9605f9\Inverstor.csv
+
+call db.schema.visualization()
+CALL db.propertyKeys
+
+LOAD CSV WITH HEADERS FROM 'file:///D:\\neo4j\\relate-data\\projects\\project-27fe63cf-6403-4748-9a09-aaedcb9605f9\\Inverstor.csv' AS row
+WITH row 
+create (investor:Investor {
+Investor_ID: toInteger(row.ID),
+Name: row.Name,
+Segment: row.Segment,
+Type: row.Type,
+RM: row.RM,
+TL: row.TL,
+SH: row.SH,
+Area: row.Area,
+ISIN: row.ISIN
+});
+
+
+
+LOAD CSV WITH HEADERS FROM 'file:///D:\\neo4j\\relate-data\\projects\\project-27fe63cf-6403-4748-9a09-aaedcb9605f9\\Stock.csv' AS row
+WITH row 
+create (stock:Stock {
+Stock_ID: toInteger(row.ID),
+ISIN: row.ISIN,
+SecurityName: row.SecurityName,
+SecurityRegion: row.SecurityRegion,
+AssetType: row.AssetType,
+SubAssetType: row.SubAssetType,
+CCY: row.CCY
+});
+
+
+MATCH (i:Investor)
+MATCH (s.Stock)
+WHERE i.ISIN = s.ISIN
+MERGE (i)-[:IS_INVESTED_IN]->(s)
+RETURN *
+
+all labels
+
+MATCH (n)
+WITH DISTINCT labels(n) AS labels
+UNWIND labels AS label
+RETURN DISTINCT label
+ORDER BY label
+
+Security name wise jp morgan and fab details
+
+MATCH (a) WHERE a.SecurityName = 'JP Morgan' OR  a.SecurityName = 'FAB'
+RETURN a.SecurityRegion
+
+MATCH p = (a)-->(b)-->(c)
+WHERE a.SecurityName = 'JP Morgane' AND c.SecurityName = 'FAB'
+RETURN nodes(p)
+
+ISIN	SecurityName	SecurityRegion	AssetType	SubAssetType	CCY
+MATCH (i:Incident)
+MATCH (o:Outcomes)
+WHERE i.crime_id = o.crime_id
+MERGE (i)-[:OUTCOME_HISTORY]->(o)
+RETURN *
+
+LOAD CSV WITH HEADERS FROM 'file:///D:\\neo4j\\relate-data\\projects\\project-27fe63cf-6403-4748-9a09-aaedcb9605f9\\Inverstor.csv' AS row
+WITH row 
+MERGE (investor:Investor {
+Investor_ID: toInteger(row.ID),
+Name: row.Name,
+Segment: row.Segment,
+Type: row.Type,
+RM: row.RM,
+TL: row.TL,
+SH: row.SH,
+Area: row.Area
+});
+
+
+
+CREATE (n:Investor {firstname: 'Ronak',lastname:'Panchal', birthdate: '27-03-1986'})
+
+CREATE (s:Stock {isin:'STOCK0001',securityname:'Reliance',assettype:'Bond'})
+
+CREATE (n)-[r:RELTYPE]->(s)
+RETURN type(r)
+
+MATCH (n)
+DETACH DELETE n
+
+LOAD CSV WITH HEADERS FROM 'file:///companies.csv' AS row
+WITH row WHERE row.Id IS NOT NULL
+MERGE (c:Company {companyId: row.Id});
+
+MATCH (n:CRYPTO) RETURN n LIMIT 25
+
+MATCH (n:CRYPTO) DELETE n;
+
+MATCH (n:CRYPTO)
+WHERE n.SYMBOL = 'BTC' 
+RETURN n
+
+MATCH (n) RETURN distinct labels(n)
+---Remove relationship---
+MATCH ()-[r:KNOWS]-() 
+DELETE r
+
+MATCH ()-[r:OWN_QTY_TYPE]-() 
+DELETE r
+----Remove Node--
+MATCH (a:Employee{name:'Alice'}) DELETE a
+==============================================
+MATCH (e:Employee),(c:Company)
+WHERE e.companyId = toString(c.id)
+CREATE (e)-[:WORKS_FOR]->(c);
+=========================================
+
+USING PERIODIC COMMIT
+LOAD CSV WITH HEADERS
+FROM "file:///Flight_data/5may2018.csv" AS line
+WITH DISTINCT line
+MERGE (f:Flight { id: TOINT(line.`flight_id`)} )
+SET f.FlightNum = line.FL_NUM
+SET f.Distance = line.DISTANCE
+SET f.Diverted = line.DIVERTED
+SET f.Cancelled = line.CANCELLED
+SET f.CRS_ElapsedTime = line.CRS_ELAPSED_TIME
+SET f.Actual_ElapsedTime = line.ACTUAL_ELAPSED_TIME
+SET f.DIV_AirportLandings = line.DIV_AIRPORT_LANDINGS
+SET f.DIV_ReachedDest = line.DIV_REACHED_DEST
+
+
+CALL db.schema.visualization() YIELD nodes, relationships
+UNWIND nodes as node
+with node, relationships
+WHERE apoc.node.labels(node) <> ["Bloom_Perspective"]
+RETURN collect(node) AS nodes, relationships
+
+RETURN gds.version()
+
+CALL algo.list()
+
+MATCH (n)
+WITH n, 
+["ANNUAL_INCOME","LIQUIDITY", "SAVING", "TOTAL_AUM" ] AS metrics
+UNWIND metrics as metric
+WITH metric, n[metric] AS value
+RETURN metric, min(value) AS minValue,
+percentileCont(value, 0.25) AS percentile25, 
+percentileCont(value, 0.50) AS percentile50, 
+percentileCont(value, 0.75) AS percentile75, 
+max(value) AS maxValue
+
+MATCH (m:INVESTOR)
+SET 
+m.logANNUAL_INCOME = log(m.ANNUAL_INCOME),
+m.logLIQUIDITY = log(m.LIQUIDITY),
+m.logSAVING = log(m.SAVING),
+m.logTOTAL_AUM = log(m.TOTAL_AUM)
+
+CALL gds.alpha.scaleProperties.mutate('investor-graph', 
+{nodeProperties: ["logANNUAL_INCOME", "logLIQUIDITY", "logSAVING", "logTOTAL_AUM"], 
+scaler:"MinMax",
+mutateProperty: "scaledProperties"}) 
+YIELD nodePropertiesWritten
+=========================================================================================
+Similarity ----->
+=========================================================================
+MATCH (i1:INVESTOR {INVESTOR_NAME: "Sydney Allen"})-[:INVESTED_IN]->(stock1)
+WITH i1, collect(id(stock1)) AS i1Stock
+MATCH (i2:INVESTOR)-[:INVESTED_IN]->(stock2) WHERE i1 <> i2
+WITH i1, i1Stock, i2, collect(id(stock2)) AS i2Stock
+RETURN i1.INVESTOR_NAME AS from, i2.INVESTOR_NAME AS to,
+   gds.alpha.similarity.jaccard(i1Stock, i2Stock) AS jaccard;
+   
+MATCH (p1:Person {name: 'John'})-[:LIKES]->(cuisine1)
+WITH p1, collect(id(cuisine1)) AS p1Cuisine
+MATCH (p2:Person)-[:LIKES]->(cuisine2) WHERE p1 <> p2
+WITH p1, p1Cuisine, p2, collect(id(cuisine2)) AS p2Cuisine
+RETURN p1.name AS from, p2.name AS to,
+   gds.alpha.similarity.jaccard(p1Cuisine, p2Cuisine) AS jaccard;
+   
+   
+CALL gds.graph.create('myGraph', ['INVESTOR', 'STOCK'], {
+   INVESTED_IN: {
+      type: 'INVESTED_IN',
+      properties: { ANNUAL_INCOME: { property: 'ANNUAL_INCOME', defaultValue: 1.0 } }
+   }
+});
+
+CALL gds.nodeSimilarity.stream('myGraph')
+YIELD node1, node2, similarity
+WITH gds.util.asNode(node1).name AS from,
+   gds.util.asNode(node2).name AS to,
+   similarity
+WHERE from = 'Sydney Allen'
+RETURN from, to, similarity;   
+
+MATCH (p1:Person {name: 'John'})-[likes1:LIKES]->(cuisine)
+MATCH (p2:Person)-[likes2:LIKES]->(cuisine2) WHERE p1 <> p2
+WITH p1, collect(likes1.score) AS p1L, p2, collect(likes2.score) AS p2L
+RETURN p1.name AS from, p2.name AS to,
+   gds.alpha.similarity.cosine(p1L, p2L) AS cosine;
+   
+MATCH (i1:INVESTOR {INVESTOR_NAME: "Sydney Allen"})-[INVESTED_IN1:INVESTED_IN]->(stock)
+MATCH (i2:INVESTOR)-[INVESTED_IN2:INVESTED_IN]->(stock2) WHERE i1 <> i2
+WITH i1, collect(INVESTED_IN1.ANNUAL_INCOME) AS i1L, i2, collect(INVESTED_IN2.ANNUAL_INCOME) AS i2L
+RETURN i1.INVESTOR_NAME AS from, i2.INVESTOR_NAME AS to,
+   gds.alpha.similarity.cosine(i1L, i2L) AS cosine;
+======================================================================================
+CALL gds.graph.create.cypher(
+    'full_graph',
+    'MATCH (n) RETURN id(n) AS id',
+    'MATCH (n)-[e]-(m) RETURN id(n) AS source, e.weight AS weight, id(m) AS target'
+)
+
+MATCH (i:INVESTOR{INVESTOR_NAME:""}) RETURN i.INVESTOR_NAME,i.full_community_id;
+=======
+CALL gds.graph.project(
+    'myGraph',
+    'INVESTOR',
+    {
+        LINK: {
+            orientation: 'UNDIRECTED'
+        }
+    },
+    {
+        nodeProperties: 'ANNUAL_INCOME',
+        relationshipProperties: 'QUANTITY_HELD'
+    }
+)
+
+CALL gds.alpha.scaleProperties.stream('investor-graph', 
+{nodeProperties: ["logANNUAL_INCOME", "logLIQUIDITY", "logSAVING", "logTOTAL_AUM"], 
+scaler:"MinMax",
+mutateProperty: "scaledProperties"}) 
+YIELD nodePropertiesWritten
+
+
+CALL gds.alpha.scaleProperties.mutate('myGraph', {
+  nodeProperties: ['logANNUAL_INCOME', 'logLIQUIDITY'],
+  scaler: 'Mean',
+  mutateProperty: 'hotelFeatures'
+}) YIELD nodePropertiesWritten
+=========================
+export query to csv
+============================
+
+ CALL apoc.export.csv.query("MATCH (n:INVESTOR) Return n.INVESTOR_NAME As n","investor.csv",{})
+
+================================
+create(:INVESTOR{Investor_ID:1, Type:'Person',AnnualIncome:'20 Lacks',Saving:'10%',TotalAUM:'20 Lack',Liquidity:40000})
+
+create(:INVESTOR_PORTFOLIO{INVESTOR_PORTFOLIO_ID:1,Sharpe_ratio_total:'0.10',Sharpe_12_month:'0.4',Sharpe_3_month:'0.5',Sharpe_1_month:'0.63',sorintino_ratio_total:'0.32',Sorintino_12_month:'1.5',Sorintino_3_month:'2.2',Sorintino_1_month:'4.3',Portfolio_Alpha:'1.4',Portfolio_Beta:'2.1',Portfolio_Vega:'3.6'})
+
+create(:INVESTOR_INTREST{INVESTOR_INTREST_ID:1,HISTORIC_Holdings:'old purchare',CommunityInterestVector:'not decide', MacroNewsVector:'', InstrumentInterestVector: '' })
+
+create(:INVESTOR_TRAITS{INVESTOR_TRAITS_ID:1,portfolio_risk_score_on_x:1.2,portfolio_risk_score_on_y:3.2,potfolio_risk_score_on_z:2.5,PRIMARY_INVESTMENT_STRATEGY:'Though LIC and SIP',ACTIVE_TRADING_STRATEGY:'Mutual Fund',MitigationTradingStrategy:'xyz',LifeGoalCharacteristic:'xyz'})
+
+create(:HISTORICAL_HOLDINGS{InstrumentLog:'intrument stock',Date:'10-02-2022',Qty:3,Price:150}) link with INVESTOR_INTREST
+
+create(:Stock{ISIN:'',CUSIP:'',SecurityName:''})  --Need to use API 
+
+create(:ENGAGEMENT{Keyword_Topic_Tag:'xyz', Score:2, Likes_Dislike:1, EngagementScore:1, ArticleReadRepeats:3, SharingScore:2, DiscussionScore:5, SocialDataAPI:3})
+
+create(:COMMUNITY_FLOK{Theme_Category_of_Flok:'smooth', FlokVector:3.2, Keywords:'aa,bb,cc,dd', EngagementScore: 3.5, AlgorithmType_Specialization:'Similary'})
+
+create(:NEWS_FLOK{Theme_Category_of_Flok:'plan'	FlokVector:4.6, Keywords:'aa,bb,cc,dd', EngagementScore:4.5, AlgorithmType_Specialization:'Clustering'})
+
+create(:INSTRUMENT_FLOK{Theme_Category_of_Flok:'plan'	FlokVector:4.6, Keywords:'aa,bb,cc,dd', EngagementScore:4.5, AlgorithmType_Specialization:'NextBest Action'})
+-------------------------------------------------
+MATCH (n)
+DETACH DELETE n
+----------------------------------------------------
+Node Create
+--------------
+create(:INVESTOR{Investor_ID:1, Type:'Person',AnnualIncome:'20 Lacks',Saving:'10%',TotalAUM:'20 Lack',Liquidity:40000})
+
+create(:INVESTOR_PORTFOLIO{INVESTOR_PORTFOLIO_ID:1,Sharpe_ratio_total:'0.10',Sharpe_12_month:'0.4',Sharpe_3_month:'0.5',Sharpe_1_month:'0.63',sorintino_ratio_total:'0.32',Sorintino_12_month:'1.5',Sorintino_3_month:'2.2',Sorintino_1_month:'4.3',Portfolio_Alpha:'1.4',Portfolio_Beta:'2.1',Portfolio_Vega:'3.6'})
+
+create(:INVESTOR_INTRESTS{INVESTOR_INTREST_ID:1,HISTORIC_Holdings:'old purchare',CommunityInterestVector:'not decide', MacroNewsVector:'', InstrumentInterestVector: '' })
+
+create(:INVESTOR_TRAITS{INVESTOR_TRAITS_ID:1,portfolio_risk_score_on_x:1.2,portfolio_risk_score_on_y:3.2,potfolio_risk_score_on_z:2.5,PRIMARY_INVESTMENT_STRATEGY:'Though LIC and SIP',ACTIVE_TRADING_STRATEGY:'Mutual Fund',MitigationTradingStrategy:'xyz',LifeGoalCharacteristic:'xyz'})
+
+create(:HISTORICAL_HOLDINGS{InstrumentLog:'intrument stock',Date:'10-02-2022',Qty:3,Price:150})
+
+create(:ENGAGEMENT{Keyword_Topic_Tag:'xyz', Score:2, Likes_Dislike:1, EngagementScore:1, ArticleReadRepeats:3, SharingScore:2, DiscussionScore:5, SocialDataAPI:3})
+
+create(:COMMUNITY_FLOK{Theme_Category_of_Flok:'smooth', FlokVector:3.2, Keywords:'aa,bb,cc,dd', EngagementScore: 3.5, AlgorithmType_Specialization:'Similary'})
+
+create(:NEWS_FLOK{Theme_Category_of_Flok:'plan', FlokVector:4.6, Keywords:'aa,bb,cc,dd', EngagementScore:4.5, AlgorithmType_Specialization:'Clustering'})
+
+create(:INSTRUMENT_FLOK{Theme_Category_of_Flok:'plan', FlokVector:4.6, Keywords:'aa,bb,cc,dd', EngagementScore:4.5, AlgorithmType_Specialization:'NextBest Action'})
+
+create(:STOCK{ISIN:'isin123',CUSIP:'cusip123',SecurityName:'reliance'}) 
+=======================
+Relationship with Node
+=======================
+
+CREATE (:INVESTOR)-[:INVESTED_IN]->(:INVESTOR_PORTFOLIO)
+
+CREATE (:INVESTOR)-[:INTERESTED_IN]->(:INVESTOR_INTRESTS)
+
+CREATE (:INVESTOR)-[:INVESTMENT_STYLE]->(:INVESTOR_TRAITS)
+
+CREATE (:INVESTOR_PORTFOLIO)-[:LONG_TERM_TRAITS]->(:INVESTOR_TRAITS)
+
+CREATE (:INVESTOR)-[:MEMBER_OF]->(:COMMUNITY_FLOK)
+
+CREATE (:INVESTOR)-[:MEMBER_OF]->(:NEWS_FLOK)
+
+CREATE (:INVESTOR)-[:MEMBER_OF]->(:INSTRUMENT_FLOK)
+
+CREATE (:INVESTOR_PORTFOLIO)-[:OWN_QTY_TYPE]->(:STOCK)
+
+CREATE (:INVESTOR_INTRESTS)-[:PURCHASHED]->(:HISTORICAL_HOLDINGS)
+
+CREATE (:INVESTOR_INTRESTS)-[:TOPIC_OF_INTEREST]->(:ENGAGEMENT)
+
+
+MATCH (a) WHERE a.Name = 'Stuart Carroll' OR a.Name = 'Eleanor Scott'
+RETURN a
+
+MATCH (s) WHERE s.SecurityName = 'IBM'
+RETURN s
+==============================================================
+Flok Dataset
+
+---Main Nodes---
+INVESTOR --> CSV is ready
+STOCK --> CSV is ready / Data fetch through API connection is done 13F - cusip id funhub
+INVESTOR_PORTFOLIO --> CSV is pending
+INVESTOR_INTRESTS  --> CSV is pending
+INVESTOR_TRAITS  --> CSV is pending
+HISTORICAL_HOLDINGS  --> CSV is pending
+ENGAGEMENT  --> CSV is pending
+COMMUNITY_FLOK  --> CSV is pending
+NEWS_FLOK  --> CSV is done / Data fetch through API connection is done
+INSTRUMENT_FLOK  --> CSV is pending
+
+---Main Nodes Relationship---
+INVESTED_IN --> CSV is ready
+INTERESTED_IN --> CSV is pending
+INVESTMENT_STYLE --> CSV is pending
+LONG_TERM_TRAITS --> CSV is pending
+MEMBER_OF --> CSV is pending
+OWN_QTY_TYPE --> CSV is pending
+PURCHASHED --> CSV is pending
+TOPIC_OF_INTEREST --> CSV is pending
+
+
+---Data Science---
+===============================================================
+https://account.intrinio.com/account/api_keys/keys
+
+API KEY for
+
+OjM2MDg2MDljZTI4ZGQ4NmQxMGI1NTY4NzRiMjFjYmQ0
+
+MATCH (actor:Person)-[:ACTED_IN]-(movie:Movie) 
+RETURN 
+    actor.name,
+    COLLECT(DISTINCT movie.title), 
+    COUNT(DISTINCT movie) as COUNT 
+ORDER BY COUNT DESC LIMIT 5;
+
+
+MATCH (m)-[ACTED_IN]-(a:Person)
+WITH m, collect(a) AS actors
+RETURN m.title, size(actors) as numActors ORDER BY size(actors) DESC LIMIT 1
+
+
+MATCH (a:Person)-[DIRECTED]->(m)
+WITH a, collect(m) AS movie
+RETURN m.title, size(movie) as numActors ORDER BY size(movie) DESC LIMIT 1
+
+MATCH (a:Actor)-[:DIRECTED]->(m:Movie)
+WITH a, count(m) AS movie_count
+WEHRE movie_count > 40
+RETURN a
+
+MATCH (a:Actor)-[:DIRECTED]->(m:Movie)
+WITH a,m, collect(a) AS actors
+RETURN a.name, size(actors) as numActors ORDER BY size(actors) DESC LIMIT 1
+
+ATCH (a:Person)-[:ACTED_IN]->(m:Movie)
+WITH  a, count(m) AS numMovies, collect(m.title) AS movies
+WHERE numMovies = 5
+RETURN a.name, movies
+
+MATCH (a:Person)-[:DIRECTED]->(m:Movie)
+WITH  a, count(m) AS numMovies, collect(m.title) AS movies
+WHERE numMovies > 30
+RETURN a.name, movies
+
+MATCH (p1:Person { name: 'Kevin Bacon' }),(p2:Person { name: 'Peta Wilson' }), path = shortestPath((p1)-[*..15]-(p2)) RETURN path
+
+INVESTOR_PORTFOLIO_ID	Sharpe ratio - total	Sharpe 12 month	Sh
+arpe 3 month	Sharpe 1 month 	sorintino ratio-total	Sorintino 12 month	Sorintino 3 month	Sorintino 1 month	Portfolio Alpha	Portfolio beta	Portfolio Vega
+
+
+======================
+CREATE(i:INVESTOR{Investor_ID:1,InvestorName:'Ronak',Type:'Person',AnnualIncome:'20 Lacks',Saving:'10%',TotalAUM:'20 Lack',Liquidity:40000})
+
+CREATE(ip:INVESTOR_PORTFOLIO{INVESTOR_PORTFOLIO_ID:1,Sharpe_ratio_total:'0.10',Sharpe_12_month:'0.4',Sharpe_3_month:'0.5',Sharpe_1_month:'0.63',sorintino_ratio_total:'0.32',Sorintino_12_month:'1.5',Sorintino_3_month:'2.2',Sorintino_1_month:'4.3',Portfolio_Alpha:'1.4',Portfolio_Beta:'2.1',Portfolio_Vega:'3.6'})
+
+CREATE(s:STOCK{ISIN:'isin123',CUSIP:'cusip123',SecurityName:'reliance'}) 
+
+CREATE(it:INVESTOR_TRAITS{INVESTOR_TRAITS_ID:1,PORTFOLIO_RISK_SCORE_ON_X:1.2,PORTFOLIO_RISK_SCORE_ON_Y:3.2,PORTFOLIO_RISK_SCORE_ON_Z:2.5,PRIMARY_INVESTMENT_STRATEGY:'Though LIC and SIP',ACTIVE_TRADING_STRATEGY:'Mutual Fund',MITIGATION_TRADING_STRATEGYY:'xyz',LIFE_GOAL_CHARACTERISTIC:'xyz'})
+
+CREATE(ii:INVESTOR_INTRESTS{INVESTOR_INTREST_ID:1,HISTORIC_HOLDINGS:'old purchare',COMMUNITY_INTEREST_VECTOR:'not decide', MACRO_NEWS_VECTOR:'', InstrumentInterestVector: '' })
+
+CREATE(eng:ENGAGEMENT{KEYWORDS_TOPIC_TAG:'xyz', SCORE:2, LIKE_DISLIKE:1, ENGAGEMENT_SCORE:1, ARTICLE_READ_REPEATS:3, SHARING_SCORE:2, DISCUSSION_SCORE:5, SOCIAL_DATA_API:3})
+
+CREATE(hh:HISTORICAL_HOLDINGS{InstrumentLog:'intrument stock',Date:'10-02-2022',Qty:3,Price:150})
+
+CREATE(cf:COMMUNITY_FLOK{Theme_Category_of_Flok:'smooth', FlokVector:3.2, Keywords:'aa,bb,cc,dd', EngagementScore: 3.5, AlgorithmType_Specialization:'Similary'})
+
+CREATE(nmf:MACRO_NEWS_FLOK{Theme_Category_of_Flok:'plan', FlokVector:4.6, Keywords:'aa,bb,cc,dd', EngagementScore:4.5, AlgorithmType_Specialization:'Clustering'})
+
+CREATE(instf:INSTRUMENT_FLOK{Theme_Category_of_Flok:'plan', FlokVector:4.6, Keywords:'aa,bb,cc,dd', EngagementScore:4.5, AlgorithmType_Specialization:'NextBest Action'})
+
+CREATE (i)-[:INVESTED_IN]->(ip)
+CREATE (i)-[:INTERESTED_IN]->(ii)
+CREATE (ip)-[:OWN_QTY_TYPE]->(s)
+CREATE (i)-[:INVESTMENT_STYLE]->(it)
+CREATE (ip)-[:LONG_TERM_TRAITS]->(it)
+CREATE (ii)-[:TOPIC_OF_INTEREST]->(eng)
+CREATE (ii)-[:PREVIOUSLY_PURCHASED]->(hh)
+
+CREATE (i)-[:IS_MEMBER_OF]->(cf)
+CREATE (i)-[:IS_MEMBER_OF]->(nmf)
+CREATE (i)-[:IS_MEMBER_OF]->(instf)
+
+
+
+
+
+
+
+1. Create all nodes 
+
+2. Create all relationships
+
+3. Load data into all nodes with properties mapping with csv by DEVELOPER
+
+4. Load data from API 
+
+5. Load data from Customer
+
+6. list out STOCK/INVESTOR/Portfolio/News etc
+
+
+Similarity with small dataset completed - next plan with large dataset - testing pending final query
+  - Improve query quality langaugae and documentation
+Clustering - pending
+NextBest Action with Real investor Data -pending
+NextBest - Cypher query with Filter with path finding - Actual data
+Node2Vec mapping to market data update - pending
+
+Python neo4j project - push in gitlab repo - deployment done
+Google Docs - code and documentation - deployment done
+Architect design - ppt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
